@@ -82,16 +82,14 @@ export default class AbstractDataManager {
   }
 
   /**
-   * Add a listener to changes in the underlying data.
-   * Calls listener immediately if data already exists.
-   * Otherwise, if no current update is occurring, triggers an update.
-   * After the update is finished, the listener will receive the call back.
+   * Add a listener to updates in the underlying data.
+   * You can set `updateIfEmpty` to trigger an update if there isn't any data currently or pending.
    *
    * @param listener The listener
-   * @param onError Error which can occur if an initial update is attempted and fails.
    * @param updateIfEmpty true if the manager should try to update the data if there isn't any.
+   * @param onError Error which can occur if an initial update is attempted and fails.
    */
-  addListener(listener, onError=null, updateIfEmpty=true) {
+  addListener(listener, updateIfEmpty=false, onError=null) {
     this.listeners.push(listener);
     if (this.data) {
       listener(this.data);
