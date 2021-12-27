@@ -36,8 +36,7 @@
           "useBuiltIns": "entry",
           "corejs": 3
         }
-      ],
-      "@babel/preset-react"
+      ]
     ],
     "plugins": []
   },
