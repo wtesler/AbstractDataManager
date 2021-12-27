@@ -8,7 +8,7 @@
  *
  * The manager handles locking to prevent simultaneous fetches of the data.
  *
- * The first listener will trigger an update.
+ * The first listener can trigger an update.
  *
  * Subsequent updates can be triggered manually.
  *
@@ -86,12 +86,16 @@ export default class AbstractDataManager {
    * Calls listener immediately if data already exists.
    * Otherwise, if no current update is occurring, triggers an update.
    * After the update is finished, the listener will receive the call back.
+   *
+   * @param listener The listener
+   * @param onError Error which can occur if an initial update is attempted and fails.
+   * @param updateIfEmpty true if the manager should try to update the data if there isn't any.
    */
-  addListener(listener, onError=null) {
+  addListener(listener, onError=null, updateIfEmpty=true) {
     this.listeners.push(listener);
     if (this.data) {
       listener(this.data);
-    } else if (!this.locked) {
+    } else if (updateIfEmpty) {
       // noinspection JSIgnoredPromiseFromCall
       this.update(onError); // Purposefully don't await this.
     }
